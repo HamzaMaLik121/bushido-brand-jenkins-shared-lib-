@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+    <!-- 
+      OWASP Dependency-Check Suppression File
+      
+      This file suppresses false positives and low-priority CVEs.
+      Adding suppressions:
+      1. Find the vulnerability signature in the dependency-check-report.xml or HTML.
+      2. Paste the <suppress> block with clear justification explaining why.
+      
+      Review Policy:
+      Every entry must be reviewed periodically. Time-boxed suppressions using the <until> tag
+      should be preferred for temporary exceptions.
+    -->
+
+    <!-- 1. Suppress test-only dependency JUnit vulnerability -->
+    <suppress>
+        <notes><![CDATA[
+        Justification: JUnit is used only in testing and compiling phases. 
+        It is never bundled into the production package or runtime class path.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/junit/junit@.*$</packageUrl>
+        <cve>CVE-2020-15250</cve>
+    </suppress>
+
+    <!-- 2. Suppress build-tool false positive -->
+    <suppress>
+        <notes><![CDATA[
+        Justification: False positive for build-time scripting libraries.
+        CVE-2023-45678 affects the compiler dashboard web UI, which is not deployed in our runtimes.
+        ]]></notes>
+        <cpe>cpe:/a:build_toolchain:compiler_dashboard</cpe>
+        <cve>CVE-2023-45678</cve>
+    </suppress>
+
+    <!-- 3. Path-scoped suppression for generated code -->
+    <suppress>
+        <notes><![CDATA[
+        Justification: Auto-generated client stubs contain references to older models,
+        but these classes are shielded and only handle static client mapping.
+        ]]></notes>
+        <filePath regex="true">.*/generated/.*</filePath>
+        <cve>CVE-2021-99999</cve>
+    </suppress>
+
+    <!-- 4. Time-boxed suppression for dependency awaiting upgrade -->
+    <suppress>
+        <!-- MUST be reviewed and either renewed or removed by the until date -->
+        <until>2026-09-22Z</until>
+        <notes><![CDATA[
+        Justification: CVE-2024-12345 has a fix in version 2.0.0. 
+        Our migration is scheduled for next sprint. Temporarily suppressing until upgrade is verified.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.yaml/snakeyaml@.*$</packageUrl>
+        <cve>CVE-2024-12345</cve>
+    </suppress>
+</suppressions>
