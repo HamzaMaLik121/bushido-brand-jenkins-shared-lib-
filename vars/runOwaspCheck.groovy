@@ -13,7 +13,7 @@ def call(Map config = [:]) {
     sh "mkdir -p reports"
 
     // Fetch NVD credentials from store to prevent public rate throttling
-    withCredentials([string(credentialsId: 'nvd-api-key', variable: 'NVD_API_KEY')]) {
+    withCredentials([string(credentialsId: 'OWASP', variable: 'NVD_API_KEY')]) {
         // Suppress errors related to suppression configurations by directing CLI output
         sh """
             /opt/dependency-check/bin/dependency-check.sh \

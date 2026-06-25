@@ -48,10 +48,9 @@ These credentials must be registered in the Jenkins system configuration before 
 | Credential ID | Type | Description |
 |---|---|---|
 | `dockerhub-creds` | Username + Password | Docker Hub auth (Username + Access Token) |
-| `nvd-api-key` | Secret Text | NVD database query access key |
-| `sonar-token` | Secret Text | SonarQube scan authorization user token |
-| `sonar-url` | Secret Text | SonarQube API endpoint (e.g. `http://sonarqube:9000`) |
-| `github-gitops-creds` | Username + Password | GitHub token with repo write scope (Username + PAT) |
+| `OWASP` | Secret Text | NVD database query access key for OWASP Dependency-Check |
+| `SONAR` | Secret Text | SonarQube server URL (token configured in Jenkins global SonarQube config) |
+| `Github-cred` | Username + Password | GitHub token with repo write scope (Username + PAT) |
 | `argocd-token` | Secret Text | ArgoCD CLI authorization token |
 | `argocd-server` | Secret Text | ArgoCD server endpoint hostname |
 

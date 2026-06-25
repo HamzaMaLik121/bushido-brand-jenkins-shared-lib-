@@ -19,8 +19,8 @@ def call(Map config = [:]) {
 
     // Clear legacy directories and check out new source structures
     sh "rm -rf gitops-tmp"
-    withCredentials([usernamePassword(credentialsId: 'github-gitops-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
-        sh "git clone https://\\$GIT_USER:\\$GIT_TOKEN@${gitOpsRepo} gitops-tmp"
+    withCredentials([usernamePassword(credentialsId: 'Github-cred', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASSWORD')]) {
+        sh "git clone https://\\$GIT_USER:\\$GIT_PASSWORD@${gitOpsRepo} gitops-tmp"
     }
 
     dir('gitops-tmp') {
@@ -48,7 +48,7 @@ def call(Map config = [:]) {
             sh "git add ${helmValuePath}"
             sh "git commit -m 'chore(${appName}): bump image tag to ${imageTag} [ci skip]'"
 
-            withCredentials([usernamePassword(credentialsId: 'github-gitops-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+            withCredentials([usernamePassword(credentialsId: 'Github-cred', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASSWORD')]) {
                 sh "git push origin ${gitOpsBranch}"
             }
             echo "Successfully updated GitOps configurations."

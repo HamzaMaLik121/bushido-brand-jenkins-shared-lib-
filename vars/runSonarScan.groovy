@@ -14,8 +14,9 @@ def call(Map config = [:]) {
     // Wrap execution within Sonar environment definition to automatically load configs
     withSonarQubeEnv('SonarQube') {
         withCredentials([
-            string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN'),
-            string(credentialsId: 'sonar-url', variable: 'SONAR_HOST_URL')
+            // SONAR is a single Secret Text credential containing the SonarQube server URL
+            // The SonarQube token is configured globally in Jenkins under Manage Jenkins → Configure System → SonarQube servers
+            string(credentialsId: 'SONAR', variable: 'SONAR_HOST_URL')
         ]) {
             sh """
                 sonar-scanner \
@@ -23,7 +24,6 @@ def call(Map config = [:]) {
                     -Dsonar.projectName="${projectKey}" \
                     -Dsonar.sources=. \
                     -Dsonar.host.url="\$SONAR_HOST_URL" \
-                    -Dsonar.login="\$SONAR_TOKEN" \
                     -Dsonar.qualitygate.wait=false \
                     -Dsonar.exclusions="**/vendor/**,**/node_modules/**,**/*.test.*,**/*.spec.*,**/test/**,**/tests/**,**/__mocks__/**"
             """
